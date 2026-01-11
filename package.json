@@ -1,0 +1,28 @@
+{
+  "name": "atomclinic-next",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postinstall": "prisma generate",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev --name init"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.18.0",
+    "bcryptjs": "^2.4.3",
+    "next": "14.2.5",
+    "nodemailer": "^7.0.12",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "sweetalert2": "^11.26.17"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.23",
+    "postcss": "^8.5.6",
+    "prisma": "^5.18.0",
+    "tailwindcss": "^3.4.13"
+  }
+}

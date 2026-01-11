@@ -1,0 +1,99 @@
+// Prisma schema for admin dashboard and content
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model AdminUser {
+  id           String         @id @default(cuid())
+  email        String         @unique
+  passwordHash String
+  createdAt    DateTime       @default(now())
+  sessions     AdminSession[]
+}
+
+model AdminSession {
+  id        String    @id @default(cuid())
+  userId    String
+  token     String    @unique
+  createdAt DateTime  @default(now())
+  expiresAt DateTime
+  user      AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Section {
+  id        String   @id @default(cuid())
+  key       String
+  label     String
+  enabled   Boolean  @default(true)
+  sortOrder Int?     @default(0)
+  locale    String   @default("en")
+  data      Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([key, locale])
+}
+
+model GeneralSettings {
+  id             String   @id @default(cuid())
+  phone          String?
+  email          String?
+  formRecipientEmail String?
+  address        String?
+  whatsappNumber String?
+  consultationDelaySeconds Int?
+  logoUrl        String?
+  faviconUrl     String?
+  social         Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model SeoSettings {
+  id          String   @id @default(cuid())
+  metaTitle   String
+  metaDescription String
+  metaKeywords String?
+  metaImage   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CustomHeader {
+  id        String   @id @default(cuid())
+  content   String?
+  bodyContent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SpinData {
+  id        String   @id @default(cuid())
+  fullName  String
+  phone     String
+  prize     String
+  createdAt DateTime @default(now())
+}
+
+model FormSubmission {
+  id        String   @id @default(cuid())
+  source    String?
+  page      String?
+  payload   Json
+  createdAt DateTime @default(now())
+}
+
+model Page {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
